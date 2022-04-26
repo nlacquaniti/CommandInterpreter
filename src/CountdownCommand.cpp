@@ -1,6 +1,7 @@
 ﻿#include "CountdownCommand.h"
 
 #include <iostream>
+#include <cmath>
 
 static bool _timeAlmostEqual(CmdInt_CountdownCommand::Seconds lhs, CmdInt_CountdownCommand::Seconds rhs) {
     auto constexpr epsilon = std::numeric_limits<CmdInt_CountdownCommand::Seconds>::epsilon();

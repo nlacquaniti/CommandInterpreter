@@ -50,25 +50,23 @@ std::array<std::string_view, _Size> SplitRawCommandParams(std::string_view comma
     return params;
 };
 
-#define CONVERT_RAW_COMMAND_PARAM_ASSERT(Message, CommandParamType) assert(false, Message##CommandParamType)
-
 template <typename _CommandParamType> //
 static void _convertRawCommandParam_Impl(std::string_view source, _CommandParamType& dest) {
-    CONVERT_RAW_COMMAND_PARAM_ASSERT("_convertCommandRawParam_Impl not implmented for", _CommandParamType);
+    assert(false); // Convert type not implemented.
 }
 
 template <> //
-static void _convertRawCommandParam_Impl(std::string_view source, int& dest) {
+void _convertRawCommandParam_Impl(std::string_view source, int& dest) {
     dest = std::atoi(source.data());
 }
 
 template <> //
-static void _convertRawCommandParam_Impl(std::string_view source, double& dest) {
+void _convertRawCommandParam_Impl(std::string_view source, double& dest) {
     dest = std::atof(source.data());
 }
 
 template <> //
-static void _convertRawCommandParam_Impl(std::string_view source, std::string_view& dest) {
+void _convertRawCommandParam_Impl(std::string_view source, std::string_view& dest) {
     dest = source;
 }
 
