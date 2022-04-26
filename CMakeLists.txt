@@ -17,10 +17,19 @@ endif()
 # Command Interpreter Library
 ####################################
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # Source files used by the library.
 # You may add any extra files that your implementation uses.
 add_library(CommandInterpreter SHARED
 	src/Control.cpp
+	src/Interpreter.cpp
+	src/EchoCommand.cpp
+	src/CountdownCommand.cpp
+	src/CommandUtility.cpp
+	src/Register.cpp
+	src/CommandProcessor.cpp
 )
 
 # Public interface headers for the library should go in this directory.
@@ -36,6 +45,7 @@ target_compile_definitions(CommandInterpreter PRIVATE -DCMDINT_BUILD_PRODUCER)
 # You may add any extra target properties you wish to this section, eg. to specify
 # a target C++ standard. Note that third party libraries or other external code
 # may not be used in the project.
+
 
 ####################################
 # Sanity Tests
