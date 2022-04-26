@@ -14,7 +14,7 @@ void CmdInt_CommandProcessor::ProcessCommand() {
         return;
     }
     
-    const CmdInt_InternalCommandExecutedResult execResult = _queue.front()->ExecuteCommand();
+    const CmdInt_CommandExecutedResult execResult = _queue.front()->ExecuteCommand();
 
     if (_onCommandProcessedCallback != nullptr && execResult.CommandOutput != nullptr) {
         _onCommandProcessedCallback(execResult.CommandOutput, execResult.UserContextData);

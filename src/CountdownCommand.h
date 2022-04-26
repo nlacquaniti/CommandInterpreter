@@ -16,7 +16,7 @@ public:
 
 private:
     void _parseRawCommandParams(std::string_view rawParams) override;
-    void _execute(CmdInt_InternalCommandExecutedResult& executeResult) override;
+    void _execute(CmdInt_CommandExecutedResult& executeResult) override;
 
     const std::string& _createTimeRemainingMessage(std::string_view countdown);
     const std::string& _createTimeNotInValidRangeMessage(std::string_view time);

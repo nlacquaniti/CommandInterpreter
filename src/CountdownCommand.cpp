@@ -1,7 +1,7 @@
 ﻿#include "CountdownCommand.h"
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 static bool _timeAlmostEqual(CmdInt_CountdownCommand::Seconds lhs, CmdInt_CountdownCommand::Seconds rhs) {
     auto constexpr epsilon = std::numeric_limits<CmdInt_CountdownCommand::Seconds>::epsilon();
@@ -14,7 +14,7 @@ void CmdInt_CountdownCommand::_parseRawCommandParams(std::string_view rawParams)
     _firstExecution = true;
 }
 
-void CmdInt_CountdownCommand::_execute(CmdInt_InternalCommandExecutedResult& executeResult) {
+void CmdInt_CountdownCommand::_execute(CmdInt_CommandExecutedResult& executeResult) {
     auto& countdown = std::get<Seconds>(_commandParams[0]);
 
     if (_firstExecution) {

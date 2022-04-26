@@ -7,6 +7,9 @@
 #include <map>
 #include <memory>
 
+/**
+ * @brief 
+ */
 class CmdInt_Register {
 public:
     using CommandPointer = std::shared_ptr<CmdInt_BaseCommand>;

@@ -14,18 +14,18 @@
  *
  * A command executed callback function has the following signature:
  * @code
- * void FunctionName(const char* commandOutput, void* userContextData).
+ * void FunctionName(CmdInt_CommandOutput commandOutput, CmdInt_UserContextData userContextData).
  * @endcode
  *
  * @param[in] commandOutput The output of the executed command.\n
  *
- * @param[in] userContextData The context data provided by the user when
+ * @param[in] userContextData The data injectedd by the user when
  * the command has been provided with this call.
  * @code
  * CmdInt_ProvideCommand(CmdInt_CommandOutput command, CmdInt_UserContextData userContextData).
  * @endcode
  */
-CMDINT_API typedef void (*CmdInt_CommandExecutedFun)(CmdInt_CommandOutput commandOutput, CmdInt_UserContextData serContextData);
+CMDINT_API typedef void (*CmdInt_CommandExecutedFun)(CmdInt_CommandOutput commandOutput, CmdInt_UserContextData userContextData);
 
 /**
  * @brief Takes over the command provided.
@@ -33,7 +33,7 @@ CMDINT_API typedef void (*CmdInt_CommandExecutedFun)(CmdInt_CommandOutput comman
  * Commands provided to this function are stored
  * like a queue (First In First Out).
  *
- * Provided commands can be execute with a call to
+ * Provided commands can be execute in order with a call to
  * @code
  * CmdInt_Poll().
  * @endcode

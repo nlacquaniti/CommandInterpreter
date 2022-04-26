@@ -8,6 +8,6 @@
 GENERATE_COMMAND_GENERIC_CASS_TYPE(echo, "command", std::string_view);
 class CmdInt_EchoCommand final : public CmdInt_echo::GenericBaseCommand {
 private:
-    void _execute(CmdInt_InternalCommandExecutedResult& executeResult) override;
+    void _execute(CmdInt_CommandExecutedResult& executeResult) override;
 };
 #endif // COMMANDINTERPRETER_ECHO_COMMAND_H
