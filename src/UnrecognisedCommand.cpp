@@ -1,6 +1,6 @@
 ﻿#include "UnrecognisedCommand.h"
 
-bool CmdInt_UnrecognisedCommand::_parseRawCommandParams(std::string_view rawParams) {
+bool CmdInt_UnrecognisedCommand::_parseRawCommandParams([[maybe_unused]] std::string_view rawParams) {
     // This command doesn't need to parse the params because the user input is
     // the param itself (es "countdown" output: "Unrecognised command: countdown".
     return true;
