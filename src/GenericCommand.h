@@ -29,11 +29,11 @@
  * @param[in] __VA_ARGS__ Types of the params (es. double, std::string_view).
  */
 #define GENERATE_COMMAND_GENERIC_CASS_TYPE(CommandName, CommandParamNames, ...)                                                                                \
-    namespace CmdInt_##CommandName {                                                                                                                           \
+    struct CmdInt_##CommandName {                                                                                                                           \
         constexpr static const char _commandName[] = #CommandName;                                                                                             \
         constexpr static const char _commandParamNames[] = CommandParamNames;                                                                                  \
         using GenericBaseCommand = CmdInt_GenericCommand<_commandName, _commandParamNames, __VA_ARGS__>;                                                       \
-    }
+    };
 
 /**
  * @brief Utility command template parent class.

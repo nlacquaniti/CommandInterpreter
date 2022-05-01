@@ -123,12 +123,12 @@ static void _convertRawCommandParam_Impl(std::string_view source, _CommandParamT
 }
 
 template <> //
-void _convertRawCommandParam_Impl(std::string_view source, double& dest) {
+inline void _convertRawCommandParam_Impl(std::string_view source, double& dest) {
     dest = std::atof(source.data());
 }
 
 template <> //
-void _convertRawCommandParam_Impl(std::string_view source, std::string_view& dest) {
+inline void _convertRawCommandParam_Impl(std::string_view source, std::string_view& dest) {
     dest = source;
 }
 
