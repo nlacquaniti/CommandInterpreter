@@ -39,6 +39,12 @@ public:
     static void ProcessCommand();
 
     /**
+     * @brief Clears the added commands and
+     * the command processed callback.
+     */
+    static void Clear();
+
+    /**
      * @brief Stores a callback to call each time a processed
      * command outputs a message.
      *

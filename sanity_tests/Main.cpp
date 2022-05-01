@@ -7,7 +7,8 @@ int main(int, char**) {
     // Echo tests
     ST_TestProcessor::AddTest("echo countdown", CommandEchoTests::countdownParam);
     ST_TestProcessor::AddTest("echo echo", CommandEchoTests::echoParam);
-    // -------------------------------
+    ST_TestProcessor::AddTest("echo unrecognised", CommandEchoTests::unrecognisedParam);
+    //-------------------------------
 
     // Countdown tests
     ST_TestProcessor::AddTest("countdown 0", CommandCountdownTests::minParamValue);

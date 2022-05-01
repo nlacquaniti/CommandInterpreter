@@ -12,6 +12,7 @@ void CmdInt_Initialise() {
 
 void CmdInt_ShutDown() {
     // Clean up your resources here.
+    CmdInt_CommandProcessor::Clear();
 }
 
 void CmdInt_Poll() {

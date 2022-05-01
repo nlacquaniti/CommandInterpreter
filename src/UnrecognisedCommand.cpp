@@ -1,12 +1,13 @@
 ﻿#include "UnrecognisedCommand.h"
 
 bool CmdInt_UnrecognisedCommand::_parseRawCommandParams(std::string_view rawParams) {
-    _rawParams = rawParams;
+    // This command doesn't need to parse the params because the user input is
+    // the param itself (es "countdown" output: "Unrecognised command: countdown".
     return true;
 }
 
 void CmdInt_UnrecognisedCommand::_execute(CmdInt_CommandExecutedResult& executeResult) {
-    _unrecognisedCommandMessage = _unrecognisedCommandMessage + _rawParams;
+    _unrecognisedCommandMessage = _unrecognisedCommandMessage + GetRawCommand().data();
     executeResult.CommandOutput = _unrecognisedCommandMessage.c_str();
 
     executeResult.IsExecutionCompleted = true;

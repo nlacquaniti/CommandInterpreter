@@ -13,7 +13,7 @@ void CmdInt_CommandProcessor::ProcessCommand() {
     if (_queue.empty()) {
         return;
     }
-    
+
     const CmdInt_CommandExecutedResult execResult = _queue.front()->ExecuteCommand();
 
     if (_onCommandProcessedCallback != nullptr && execResult.CommandOutput != nullptr) {
@@ -23,4 +23,12 @@ void CmdInt_CommandProcessor::ProcessCommand() {
     if (execResult.IsExecutionCompleted) {
         _queue.pop();
     }
+}
+
+void CmdInt_CommandProcessor::Clear() {
+    while (!_queue.empty()) {
+        _queue.pop();
+    }
+
+    _onCommandProcessedCallback = nullptr;
 }

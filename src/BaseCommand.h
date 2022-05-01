@@ -75,6 +75,7 @@ public:
      * @returns bool that rapresent the success or not of initialisation.
      */
     bool InitCommand(std::string_view command, CmdInt_UserContextData userContextData) {
+        _rawCommand = command;
         _userContextData = userContextData;
         _commandRawParams = CmdInt_CommandUtility::RemoveRawCommandName(command);
         return _parseRawCommandParams(_commandRawParams);
@@ -101,6 +102,14 @@ public:
         _execute(result);
         return result;
     }
+
+    /**
+     * @brief Getter to the raw command provided by the user
+     * (es. "echo countdown", "countdown 5").
+     *
+     * @returns A string of the raw command provided by the user.
+     */
+    [[nodiscard]] std::string_view GetRawCommand() const { return _rawCommand; }
 
     /**
      * @brief Getter to the raw params (as a string) of the command
@@ -166,6 +175,7 @@ private:
 
     CmdInt_UserContextData _userContextData = nullptr;
 
+    std::string_view _rawCommand;
     std::string_view _commandRawParams;
 };
 #endif // COMMANDINTERPRETER_BASE_COMMAND_H

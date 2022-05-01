@@ -6,5 +6,6 @@
 namespace CommandEchoTests {
 extern ST_TestProcessor::TestFunc countdownParam;
 extern ST_TestProcessor::TestFunc echoParam;
+    extern ST_TestProcessor::TestFunc unrecognisedParam;
 } // namespace CommandEchoTests
 #endif // SANITYTESTS_COMMAND_ECHO_TESTS

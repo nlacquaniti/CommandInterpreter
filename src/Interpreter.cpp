@@ -26,8 +26,7 @@ void CmdInt_ProvideCommand(CmdInt_CommandSignature command, CmdInt_UserContextDa
         // Fallback to safe command.
         commandInstance = CmdInt_Register::GetCommand(CmdInt_UnrecognisedCommand::COMMAND_NAME);
         assert(commandInstance != nullptr);
-        const std::string unrecognisedCommand(std::string(CmdInt_UnrecognisedCommand::COMMAND_NAME) + ' ' + command);
-        const bool bUnrecognisedInit = commandInstance->InitCommand(unrecognisedCommand, userContextData);
+        const bool bUnrecognisedInit = commandInstance->InitCommand(command, userContextData);
         assert(bUnrecognisedInit);
     }
 
