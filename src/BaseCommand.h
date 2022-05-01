@@ -71,11 +71,13 @@ public:
      *
      * @param[in] userContextData Generic user defined data.\n
      * Its stored and returned without alteration everytime the command is executed.
+     *
+     * @returns bool that rapresent the success or not of initialisation.
      */
-    void InitCommand(std::string_view command, CmdInt_UserContextData userContextData) {
+    bool InitCommand(std::string_view command, CmdInt_UserContextData userContextData) {
         _userContextData = userContextData;
         _commandRawParams = CmdInt_CommandUtility::RemoveRawCommandName(command);
-        _parseRawCommandParams(_commandRawParams);
+        return _parseRawCommandParams(_commandRawParams);
     }
 
     /**
@@ -125,10 +127,6 @@ public:
     [[nodiscard]] std::string_view GetCommandParamNames() const { return _getCommandParamsName(); }
 
 private:
-    CmdInt_UserContextData _userContextData = nullptr;
-
-    std::string_view _commandRawParams;
-
     /**
      * @brief Parses the input raw params string and converts
      * each param to the associated type.
@@ -139,8 +137,10 @@ private:
      * This method is called by @a InitCommand
      *
      * @param[in] rawParams String of params separated by a whitespace.
+     *
+     * @returns a bool that rapresent the success or not of the parse.
      */
-    virtual void _parseRawCommandParams(std::string_view rawParams) = 0;
+    virtual bool _parseRawCommandParams(std::string_view rawParams) = 0;
 
     /**
      * @brief Executes the functionality of the command.
@@ -163,5 +163,9 @@ private:
      * @brief See GetCommandParamsName()
      */
     [[nodiscard]] virtual std::string_view _getCommandParamsName() const = 0;
+
+    CmdInt_UserContextData _userContextData = nullptr;
+
+    std::string_view _commandRawParams;
 };
 #endif // COMMANDINTERPRETER_BASE_COMMAND_H

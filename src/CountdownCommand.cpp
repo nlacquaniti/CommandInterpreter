@@ -1,5 +1,6 @@
 ﻿#include "CountdownCommand.h"
 
+#include <cctype>
 #include <cmath>
 #include <iostream>
 
@@ -8,23 +9,56 @@ static bool _timeAlmostEqual(CmdInt_CountdownCommand::Seconds lhs, CmdInt_Countd
     return abs(lhs - rhs) <= epsilon;
 }
 
-void CmdInt_CountdownCommand::_parseRawCommandParams(std::string_view rawParams) {
-    CmdInt_countdown::GenericBaseCommand::_parseRawCommandParams(rawParams);
+static bool _isThisStringANumber(std::string_view source) {
+    if (source.empty()) {
+        return false;
+    }
+
+    int numberOfDots = 0;
+    for (const auto c : source) {
+        if (c == '.') {
+            if (numberOfDots == 0) {
+                ++numberOfDots;
+            } else {
+                return false;
+            }
+        } else {
+            if (!std::isdigit(c)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool CmdInt_CountdownCommand::_parseRawCommandParams(std::string_view rawParams) {
+    // Determine if the raw param is a number
+    _bParsingSuccessful = _isThisStringANumber(rawParams);
     _secondsRemainingMessageTimer = SECONDS_REMANING_MESSAGE_FREQUENCE;
-    _firstExecution = true;
+    _isFirstExecution = true;
+
+    return CmdInt_countdown::GenericBaseCommand::_parseRawCommandParams(rawParams);
 }
 
 void CmdInt_CountdownCommand::_execute(CmdInt_CommandExecutedResult& executeResult) {
+    // Handle parse failed case.
+    // This happen when the command raw param provided can't be parsed as a double.
+    if (!_bParsingSuccessful) {
+        executeResult.CommandOutput = _createTimeNotInValidRangeMessage(GetRawCommandParams()).c_str();
+        executeResult.IsExecutionCompleted = true;
+        return;
+    }
+
     auto& countdown = std::get<Seconds>(_commandParams[0]);
 
-    if (_firstExecution) {
-        _firstExecution = false;
+    if (_isFirstExecution) {
+        _isFirstExecution = false;
         _previousClockTime = Clock::now();
 
         // Output time not in range when the user has invoked the command
         // with a countdown that doesn't match the range (by design)
         // between 0 and 10 (inclusive).
-
         if (countdown < 0 || countdown > 10) {
             executeResult.IsExecutionCompleted = true;
             executeResult.CommandOutput = _createTimeNotInValidRangeMessage(GetRawCommandParams()).c_str();
@@ -75,7 +109,11 @@ void CmdInt_CountdownCommand::_execute(CmdInt_CommandExecutedResult& executeResu
             // Cast to int in order to show only the seconds.
             const double roundCountdown = round(countdown);
             const int secondsRemaining = static_cast<int>(roundCountdown);
+            const auto secondsRemainingString = std::to_string(secondsRemaining);
             executeResult.CommandOutput = _createTimeRemainingMessage(std::to_string(secondsRemaining)).c_str();
+
+            // By design this command should log the remaining time each second.
+            std::cout << _createTimeRemainingMessage(secondsRemainingString.c_str()) << '\n';
         }
     } else {
         // Countdown over.
@@ -91,7 +129,7 @@ const std::string& CmdInt_CountdownCommand::_createTimeRemainingMessage(std::str
 }
 
 const std::string& CmdInt_CountdownCommand::_createTimeNotInValidRangeMessage(std::string_view time) {
-    _timeNotInValidRangeMessage = "valid countdown period of ";
+    _timeNotInValidRangeMessage = "Invalid countdown period of ";
     _timeNotInValidRangeMessage.append(time);
     _timeNotInValidRangeMessage.append(" seconds");
     return _timeNotInValidRangeMessage;

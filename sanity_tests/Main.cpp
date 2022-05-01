@@ -1,47 +1,29 @@
-#include <CommandInterpreter/Control.h>
-#include <CommandInterpreter/Interpreter.h>
-#include <chrono>
-#include <iostream>
-
-static void _commandExecutedCallback(CmdInt_CommandOutput commandOutput, CmdInt_UserContextData userContextData) {
-    const auto* data = static_cast<std::string_view*>(userContextData);
-    std::cout <<  *data << " command" <<" output: " << commandOutput << '\n';
-}
+#include "TestProcessor.h"
+#include "test_implementations/CommandCountdownTests.h"
+#include "test_implementations/CommandEchoTests.h"
+#include "test_implementations/CommandUnrecognisedTests.h"
 
 int main(int, char**) {
-    using namespace std::chrono;
+    // Echo tests
+    ST_TestProcessor::AddTest("echo countdown", CommandEchoTests::countdownParam);
+    ST_TestProcessor::AddTest("echo echo", CommandEchoTests::echoParam);
+    // -------------------------------
 
-    const auto appStartTime = steady_clock::now();
+    // Countdown tests
+    ST_TestProcessor::AddTest("countdown 0", CommandCountdownTests::minParamValue);
+    ST_TestProcessor::AddTest("countdown 1", CommandCountdownTests::oneParamValue);
+    ST_TestProcessor::AddTest("countdown 5", CommandCountdownTests::normalParamValue);
+    ST_TestProcessor::AddTest("countdown 10", CommandCountdownTests::maxParamValue);
+    ST_TestProcessor::AddTest("countdown -1", CommandCountdownTests::minNotValidParamValue);
+    ST_TestProcessor::AddTest("countdown 11", CommandCountdownTests::maxNotValidParamValue);
+    ST_TestProcessor::AddTest("countdown arg0", CommandCountdownTests::notValidNumericParamValue);
+    // -------------------------------
 
-    // This executable links against your library.
-    // You may perform any sanity tests here that you wish,
-    // to verify that your code works as expected.
-    // Please leave these tests in your final solution,
-    // as they will add to your overall evaluation.
-    CmdInt_Initialise();
+    // Unrecognised tests
+    ST_TestProcessor::AddTest("unknown 0", CommandUnrecognisedTests::unknownCommand);
+    ST_TestProcessor::AddTest("countdown", CommandUnrecognisedTests::knownCommandWithoutParams);
+    // -------------------------------
 
-    CmdInt_ProvideCommandExecutedCallback(&_commandExecutedCallback);
-
-    std::string_view echoData("echo");
-    CmdInt_ProvideCommand("echo countdown", &echoData);
-
-    std::string_view countdownData("countdown 1");
-    CmdInt_ProvideCommand("countdown 3", &countdownData);
-
-    std::string_view countdownData2("countdown 2");
-    CmdInt_ProvideCommand("countdown 3", &countdownData2);
-
-    const auto loopStartTime = steady_clock::now();
-    duration<double> loopElapsedTime(0);
-    while (loopElapsedTime.count() < 10) {
-        loopElapsedTime = steady_clock::now() - loopStartTime;
-        CmdInt_Poll();
-    }
-
-    CmdInt_ShutDown();
-
-    const duration<double> appElapsedTime = steady_clock::now() - appStartTime;
-    std::cout << "test took: " << appElapsedTime.count() << "s\n";
-
+    ST_TestProcessor::ProcessTests();
     return 0;
 }

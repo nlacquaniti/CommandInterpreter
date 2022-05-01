@@ -27,6 +27,7 @@ add_library(CommandInterpreter SHARED
 	src/Interpreter.cpp
 	src/EchoCommand.cpp
 	src/CountdownCommand.cpp
+	src/UnrecognisedCommand.cpp
 	src/CommandUtility.cpp
 	src/Register.cpp
 	src/CommandProcessor.cpp
@@ -53,9 +54,15 @@ target_compile_definitions(CommandInterpreter PRIVATE -DCMDINT_BUILD_PRODUCER)
 
 add_executable(SanityTests
 	sanity_tests/Main.cpp
+	sanity_tests/TestProcessor.cpp
+	sanity_tests/test_implementations/CommandEchoTests.cpp
+	sanity_tests/test_implementations/CommandCountdownTests.cpp
+	sanity_tests/test_implementations/CommandUnrecognisedTests.cpp
 )
 
 target_link_libraries(SanityTests PUBLIC CommandInterpreter)
+
+target_include_directories(SanityTests PRIVATE sanity_tests)
 
 ####################################
 # Installation

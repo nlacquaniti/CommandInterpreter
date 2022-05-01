@@ -22,7 +22,13 @@ std::string_view RemoveRawCommandName(std::string_view command) {
     return {};
 }
 
-size_t GetRawCommandParamsCount(std::string_view params) {
+size_t GetRawCommandParamsCount(std::string_view command) {
+    return std::count_if(command.cbegin(), command.cend(), [](const auto element) {
+        return element == ' '; //
+    });
+}
+
+size_t GetRawParamsCount(std::string_view params) {
     if (params.empty()) {
         return 0;
     }
