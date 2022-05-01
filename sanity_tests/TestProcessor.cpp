@@ -40,7 +40,7 @@ void ST_TestProcessor::_onCommandExecuted(CmdInt_CommandOutput commandOutput, Cm
     _print("COMMAND ITERATION: " + std::to_string(test->TestIteration) + "\nOUTPUT: " + commandOutput);
     _print("-------------------------");
 
-    test->IsCompleted = test->TestFunc(commandOutput, test->TestIteration);
+    test->IsCompleted = test->UserTestFunc(commandOutput, test->TestIteration);
 }
 
 void ST_TestProcessor::_update() {

@@ -19,12 +19,12 @@ private:
     struct UserTest {
         UserTest(std::string_view commandToProcess, TestFunc testFunc)
             : CommandToProcess(commandToProcess)
-            , TestFunc(std::move(testFunc))
+            , UserTestFunc(std::move(testFunc))
             , TestIteration(0)
             , IsCompleted(false) {}
 
         std::string_view CommandToProcess;
-        TestFunc TestFunc;
+        TestFunc UserTestFunc;
         int TestIteration;
         bool IsCompleted;
     };
