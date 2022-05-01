@@ -86,6 +86,7 @@ void ConvertRawCommandParam(std::string_view source, std::variant<_CommandParamT
  * @param[in] source Raw param to convert and assign to dest.
  * @param[in] dest Destination variable for the conversion.
  */
+
 template <typename _CommandParamType> //
 static void _convertRawCommandParam_Impl(std::string_view source, _CommandParamType& dest);
 
@@ -95,12 +96,12 @@ std::array<std::string_view, _Size> SplitRawCommandParams(std::string_view comma
     std::array<std::string_view, _Size> params;
 
     // Assign the params to the output if necessary.
-    std::transform(params.cbegin(), params.cend(), params.begin(), [&command](auto& param) {
+    for (auto& param : params) {
         const auto findResult = command.find(' ');
 
         // Found the last param.
         if (findResult == std::string_view::npos) {
-            return command;
+            param = command;
         }
 
         // Store found param.
@@ -110,8 +111,8 @@ std::array<std::string_view, _Size> SplitRawCommandParams(std::string_view comma
         const auto findNextCharIdx = findResult + 1;
         command = command.substr(findNextCharIdx, command.size() - findNextCharIdx);
 
-        return output;
-    });
+        param = output;
+    }
 
     return params;
 };
@@ -122,22 +123,12 @@ static void _convertRawCommandParam_Impl(std::string_view source, _CommandParamT
 }
 
 template <> //
-void _convertRawCommandParam_Impl(std::string_view source, int& dest) {
-    dest = std::atoi(source.data());
-}
-
-template <> //
 void _convertRawCommandParam_Impl(std::string_view source, double& dest) {
     dest = std::atof(source.data());
 }
 
 template <> //
 void _convertRawCommandParam_Impl(std::string_view source, std::string_view& dest) {
-    dest = source;
-}
-
-template <> //
-void _convertRawCommandParam_Impl(std::string_view source, std::string& dest) {
     dest = source;
 }
 
