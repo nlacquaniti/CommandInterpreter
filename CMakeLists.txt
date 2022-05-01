@@ -72,6 +72,12 @@ target_link_libraries(SanityTests PUBLIC CommandInterpreter)
 
 target_include_directories(SanityTests PRIVATE sanity_tests)
 
+if(MSVC)
+  target_compile_options(SanityTests PRIVATE /W4 /WX)
+else()
+  target_compile_options(SanityTests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+
 ####################################
 # Installation
 ####################################
