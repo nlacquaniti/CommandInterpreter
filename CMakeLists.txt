@@ -20,6 +20,7 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 # Source files used by the library.
 # You may add any extra files that your implementation uses.
 add_library(CommandInterpreter SHARED
@@ -42,6 +43,13 @@ target_include_directories(CommandInterpreter PRIVATE src)
 # This definition is added when building the library, so that public
 # library functions may be exported correctly on Windows (see LibExport.h).
 target_compile_definitions(CommandInterpreter PRIVATE -DCMDINT_BUILD_PRODUCER)
+
+if(MSVC)
+  target_compile_options(CommandInterpreter PRIVATE /W4 /WX)
+else()
+  target_compile_options(CommandInterpreter PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+
 
 # You may add any extra target properties you wish to this section, eg. to specify
 # a target C++ standard. Note that third party libraries or other external code
