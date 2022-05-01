@@ -9,7 +9,12 @@
 
 class ST_TestProcessor {
 public:
-    using TestFunc = std::function<bool(std::string_view, int)>;
+    struct TestFuncOutput {
+        bool IsCompleted = false;
+        bool HasGeneratedError = false;
+    };
+
+    using TestFunc = std::function<TestFuncOutput(std::string_view, int)>;
 
     static void AddTest(std::string_view commandToProcess, TestFunc testFunc);
     static void ClearTest();
@@ -20,13 +25,12 @@ private:
         UserTest(std::string_view commandToProcess, TestFunc testFunc)
             : CommandToProcess(commandToProcess)
             , UserTestFunc(std::move(testFunc))
-            , TestIteration(0)
-            , IsCompleted(false) {}
+            , TestIteration(0) {}
 
         std::string_view CommandToProcess;
         TestFunc UserTestFunc;
         int TestIteration;
-        bool IsCompleted;
+        TestFuncOutput Output;
     };
 
     static void _onCommandExecuted(CmdInt_CommandOutput commandOutput, CmdInt_UserContextData userContextData);

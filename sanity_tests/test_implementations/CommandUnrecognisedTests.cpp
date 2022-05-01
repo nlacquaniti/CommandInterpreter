@@ -4,9 +4,13 @@
 #include <string_view>
 
 namespace CommandUnrecognisedTests {
-static bool _checkUnrecognisedCommandOutput(std::string_view lhsOutput, std::string_view rhsOutput, int lhsIteration, int rhsIteration) {
-    assert(lhsOutput == rhsOutput && lhsIteration == rhsIteration);
-    return true;
+static ST_TestProcessor::TestFuncOutput _checkUnrecognisedCommandOutput(
+    std::string_view lhsOutput, std::string_view rhsOutput, int lhsIteration, int rhsIteration) {
+    ST_TestProcessor::TestFuncOutput output;
+    output.HasGeneratedError = lhsOutput != rhsOutput || lhsIteration != rhsIteration;
+    output.IsCompleted = true;
+    assert(!output.HasGeneratedError);
+    return output;
 }
 
 ST_TestProcessor::TestFunc unknownCommand = [](auto output, auto iteration) {

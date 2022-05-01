@@ -27,6 +27,7 @@ void ST_TestProcessor::ProcessTests() {
     CmdInt_ProvideCommandExecutedCallback(&_onCommandExecuted);
     _update();
     CmdInt_ShutDown();
+    ClearTest();
 
     _print("TEST PROCESSOR END");
 }
@@ -40,7 +41,7 @@ void ST_TestProcessor::_onCommandExecuted(CmdInt_CommandOutput commandOutput, Cm
     _print("COMMAND ITERATION: " + std::to_string(test->TestIteration) + "\nOUTPUT: " + commandOutput);
     _print("-------------------------");
 
-    test->IsCompleted = test->UserTestFunc(commandOutput, test->TestIteration);
+    test->Output = test->UserTestFunc(commandOutput, test->TestIteration);
 }
 
 void ST_TestProcessor::_update() {
@@ -57,11 +58,17 @@ void ST_TestProcessor::_update() {
         CmdInt_ProvideCommand(test.CommandToProcess.data(), &test);
 
         auto loopStartTime = steady_clock::now();
-        while (!test.IsCompleted) {
+        while (!test.Output.IsCompleted) {
             duration<double> elapsedTime = steady_clock::now() - loopStartTime;
             if (elapsedTime.count() >= (0.1)) {
                 CmdInt_Poll();
                 loopStartTime = steady_clock::now();
+            }
+
+            if (test.Output.HasGeneratedError) {
+                _print(("EXECUTION FOR TEST N" + std::to_string(testsCounter) + " ENDED WITH ERROR").c_str());
+                _print("##########################################################");
+                return;
             }
         }
 

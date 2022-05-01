@@ -3,22 +3,32 @@
 #include <string>
 
 namespace CommandCountdownTests {
-static bool _checkCountdownOutput(std::string_view commandOutput, int currentIteration, int maxIteration) {
+static ST_TestProcessor::TestFuncOutput _checkCountdownOutput(std::string_view commandOutput, int currentIteration, int maxIteration) {
     assert(currentIteration <= maxIteration);
 
+    ST_TestProcessor::TestFuncOutput output;
+
     if (currentIteration < maxIteration) {
-        assert(commandOutput == (std::to_string(maxIteration - currentIteration) + " seconds remaining"));
-        return false;
+        output.HasGeneratedError = commandOutput != (std::to_string(maxIteration - currentIteration) + " seconds remaining");
+        output.IsCompleted = false;
+        assert(!output.HasGeneratedError);
+        return output;
     }
 
-    assert(commandOutput == "Countdown complete");
-    return true;
+    output.HasGeneratedError = commandOutput != "Countdown complete";
+    output.IsCompleted = true;
+    assert(!output.HasGeneratedError);
+    return output;
 }
 
-static bool _checkInvalidCountdownParam(std::string_view commandOutput, std::string_view paramValue, int lhsIteration, int rhsIteration) {
-    assert(commandOutput == std::string("Invalid countdown period of ") + paramValue.data() + " seconds");
-    assert(lhsIteration == rhsIteration);
-    return true;
+static ST_TestProcessor::TestFuncOutput _checkInvalidCountdownParam(
+    std::string_view commandOutput, std::string_view paramValue, int lhsIteration, int rhsIteration) {
+    ST_TestProcessor::TestFuncOutput output;
+    const bool bCommandOutputValid = commandOutput != std::string("Invalid countdown period of ") + paramValue.data() + " seconds";
+    output.HasGeneratedError = bCommandOutputValid || lhsIteration != rhsIteration;
+    output.IsCompleted = true;
+    assert(!output.HasGeneratedError);
+    return output;
 }
 
 ST_TestProcessor::TestFunc minParamValue = [](auto output, auto iteration) {
