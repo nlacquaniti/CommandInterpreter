@@ -1,5 +1,5 @@
 ﻿#include "CommandProcessor.h"
-#include "BaseCommand.h"
+#include "Commands/BaseCommand.h"
 
 CmdInt_CommandProcessor::CommandQueue CmdInt_CommandProcessor::_queue;
 CmdInt_CommandExecutedFun CmdInt_CommandProcessor::_onCommandProcessedCallback = nullptr;

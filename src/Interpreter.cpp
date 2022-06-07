@@ -2,7 +2,7 @@
 #include "CommandProcessor.h"
 #include "CommandUtility.h"
 #include "Register.h"
-#include "UnrecognisedCommand.h"
+#include "Commands/UnrecognisedCommand.h"
 
 #include <string>
 

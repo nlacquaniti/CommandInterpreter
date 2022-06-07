@@ -1,6 +1,6 @@
 ﻿#include "Register.h"
 
-#include "UnrecognisedCommand.h"
+#include "Commands/UnrecognisedCommand.h"
 
 CmdInt_Register::CommandsMap CmdInt_Register::_commandsMap{{
     // Add fallback command.

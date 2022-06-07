@@ -1,6 +1,6 @@
 ﻿#include "CommandUtility.h"
 
-#include <BaseCommand.h>
+#include "Commands/BaseCommand.h"
 #include <iostream>
 
 namespace CmdInt_CommandUtility {

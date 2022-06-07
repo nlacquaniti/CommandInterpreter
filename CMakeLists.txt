@@ -26,12 +26,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_library(CommandInterpreter SHARED
 	src/Control.cpp
 	src/Interpreter.cpp
-	src/EchoCommand.cpp
-	src/CountdownCommand.cpp
-	src/UnrecognisedCommand.cpp
 	src/CommandUtility.cpp
 	src/Register.cpp
 	src/CommandProcessor.cpp
+	src/Commands/EchoCommand.cpp
+	src/Commands/CountdownCommand.cpp
+	src/Commands/UnrecognisedCommand.cpp
 )
 
 # Public interface headers for the library should go in this directory.

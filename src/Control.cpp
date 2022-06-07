@@ -1,7 +1,7 @@
 #include "CommandInterpreter/Control.h"
 #include "CommandProcessor.h"
-#include "CountdownCommand.h"
-#include "EchoCommand.h"
+#include "Commands/CountdownCommand.h"
+#include "Commands/EchoCommand.h"
 #include "Register.h"
 
 void CmdInt_Initialise() {

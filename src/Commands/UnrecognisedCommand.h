@@ -1,7 +1,7 @@
 ﻿#ifndef COMMANDINTERPRETER_UNRECOGNISED_COMMAND_H
 #define COMMANDINTERPRETER_UNRECOGNISED_COMMAND_H
 
-#include <GenericCommand.h>
+#include "GenericCommand.h"
 
 #include <string>
 #include <string_view>

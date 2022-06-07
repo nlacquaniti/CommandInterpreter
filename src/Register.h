@@ -1,7 +1,7 @@
 ﻿#ifndef COMMANDINTERPRETER_REGISTER_H
 #define COMMANDINTERPRETER_REGISTER_H
 
-#include "BaseCommand.h"
+#include "Commands/BaseCommand.h"
 
 #include <functional>
 #include <map>
